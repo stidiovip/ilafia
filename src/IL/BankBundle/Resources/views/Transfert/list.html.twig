@@ -1,0 +1,97 @@
+{% extends "ILBankBundle::layout.html.twig" %}
+{% block title %}Liste des souscription {% endblock %}
+
+{% block breadcrumb %}
+    <div class="breadcrumbs">
+        <div class="col-sm-4">
+            <div class="page-header float-left">
+                <div class="page-title">
+                    <h1>Souscription Mobile</h1>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-8">
+            <div class="page-header float-right">
+                <div class="page-title">
+                    <ol class="breadcrumb text-right">
+                        <li><a href="{{ path('il_bank_homepage') }}">Tableau de Bord</a></li>
+                        <li><a href="{{ path('il_bank_souscription_mobile_list') }}">Souscription Mobile</a></li>
+                        <li class="active">Liste des souscriptions</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <strong>Liste des souscriptions</strong>
+                    </div>
+                    <div class="card-body">
+                        <div class = "row">
+                        <div class="col-md-12">
+                            <table id="exemple" style="width: 100% !important;" class="table table-responsive table-bordered table-hover">
+                                <thead class="thead-light" style="font-size: 15px; text-space: 4px">
+                                <tr>
+                                    <th>#</th>
+                                    <th> Date</th>
+                                    <th> Emetteur</th>
+                                    <th> Beneficiaire</th>
+                                    <th>Montant</th>
+                                    <th>Type</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for key, val in transferts %}
+                                    <tr>
+                                        <td>{{ val.id }}</td>
+                                        <td>
+                                            {{ val.created_at | date('d-m-Y') }}
+                                        </td>
+                                        <td>
+                                            {{ val.source | slice(0, 4)}} **** **** *{{ val.source | slice(0, 3)}}
+                                        </td>
+                                        <td>
+                                            {{ val.beneficiaire }}
+                                        </td>
+                                        <td>
+                                            <strong>{{ val.montant }} FCFA</strong>
+                                        </td>
+
+                                        <td>{{ val.trans }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+        jQuery(function ($) {
+            $('#exemple').DataTable({
+                'paging'      : false,
+                'lengthChange': true,
+                'searching'   : false,
+                'ordering'    : true,
+                'info'        : false,
+                'autoWidth'   : true
+            })
+        })
+    </script>
+{% endblock %}

@@ -1,0 +1,43 @@
+il_bank_homepage:
+    path:     /
+    defaults: { _controller: ILBankBundle:Dashboard:index }
+il_bank_souscription_mobile_list:
+    path:     /souscription-mobile
+    defaults: { _controller: ILBankBundle:SouscriptionMobile:list }
+il_bank_souscription_mobile_resiliation_list:
+    path:     /souscription-mobile/resiliation
+    defaults: { _controller: ILBankBundle:SouscriptionMobile:resiliationList }
+
+il_bank_souscription_mobile_new:
+    path:     /souscription-mobile/new
+    defaults: { _controller: ILBankBundle:SouscriptionMobile:add }
+il_bank_souscription_mobile_edit:
+    path:     /souscription-mobile/edit/{id}
+    defaults: { _controller: ILBankBundle:SouscriptionMobile:edit }
+il_bank_souscription_resilier:
+    path:     /souscription-mobile/resilier/{id}
+    defaults: { _controller: ILBankBundle:SouscriptionMobile:resilier }
+il_bank_souscription_banque_resilier:
+    path:     /souscription-banque/resilier/{id}
+    defaults: { _controller: ILBankBundle:SouscriptionBanque:resilier }
+
+il_bank_souscription_banque_list:
+    path:     /souscription-banque
+    defaults: { _controller: ILBankBundle:SouscriptionBanque:list }
+il_bank_souscription_banque_new:
+    path:     /souscription-banque/add-new
+    defaults: { _controller: ILBankBundle:SouscriptionBanque:add }
+il_bank_souscription_banque_edit:
+    path:     /souscription-banque/edit/{id}
+    defaults: { _controller: ILBankBundle:SouscriptionBanque:edit }
+
+il_bank_souscription_banque_resiliation_list:
+    path:     /souscription-banque/resiliation
+    defaults: { _controller: ILBankBundle:SouscriptionBanque:resiliationList }
+
+il_bank_report:
+    path:     /report-manager
+    defaults: { _controller: ILBankBundle:SouscriptionBanque:report }
+il_bank_transfert:
+    path:     /transfert
+    defaults: { _controller: ILBankBundle:Transfert:transfert }

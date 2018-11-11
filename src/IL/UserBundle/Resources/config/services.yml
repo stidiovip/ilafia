@@ -1,0 +1,4 @@
+services:
+#    il_user.example:
+#        class: IL\UserBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]

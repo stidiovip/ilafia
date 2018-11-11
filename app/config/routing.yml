@@ -1,0 +1,21 @@
+il_bank:
+    resource: "@ILBankBundle/Resources/config/routing.yml"
+    prefix:   /bank
+
+il_core:
+    resource: "@ILCoreBundle/Resources/config/routing.yml"
+    prefix:   /
+
+il_user:
+    resource: "@ILUserBundle/Resources/config/routing.yml"
+    prefix:   /
+
+login:
+    path:   /login
+    defaults:  { _controller: ILUserBundle:Security:login }
+
+login_check:
+    path:   /login_check
+
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"

@@ -1,0 +1,228 @@
+{% extends "ILBankBundle::layout.html.twig" %}
+
+{% block content %}
+    <div class="animated fadeIn">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <strong>Report Manager</strong>
+                        <small>Remplissez ce champ pour souscrire à ILAFIA</small>
+                    </div>
+                    <form method="get">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="nom_carte">Type de report</label>
+                                    <select name="type_report" class="form-control">
+                                        <option value="">Settlement / EOD Exception report</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-md-7">
+
+                                <div class="form-group">
+                                    <label for="nom_carte">Operateur</label>
+                                    <select name="operateur" class="form-control">
+                                        <option value=""></option>
+                                        <option value="Orange ML">Orange ML</option>
+                                        <option value="Malitel">Malitel</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="nom_carte">Type de transaction</label>
+                                    <select name="type_transaction" class="form-control">
+                                        <option value=""></option>
+                                        <option value="c2w">Carte => Mobile</option>
+                                        <option value="w2c">Mobile => Carte</option>
+                                        <option value="cb2c">Banque => Carte</option>
+                                        <option value="c2cb">Carte => Banque</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="nom_carte">No de la carte</label>
+                                    <input type="text" onkeypress="return onlyNos(event,this);" maxlength="16" name="numeroCarte" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="nom_carte">Date de debut</label>
+                                    <input placeholder="JJ/MM/AAAA" type="text" name="dateDebut" class="form-control">
+                                </div>
+
+                            </div>
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label for="nom_carte">No de compte</label>
+                                    <input type="text" name="numeroCompte" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="nom_carte">Statut Linkage</label>
+                                    <select  name="statutLiaison" class="form-control">
+                                        <option value=""></option>
+                                        <option value="Pending">Pending</option>
+                                        <option value="Linked">Linked</option>
+                                        <option value="Resiliated">Resiliated</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="nom_carte">Flexcube Reference</label>
+                                    <input  type="text" name="flexcube" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="nom_carte">Date de fin</label>
+                                    <input placeholder="JJ/MM/AAAA" type="text" name="date_fin" class="form-control">
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+
+                        <button type="submit" class="btn btn-sm btn-primary">
+                            <i class="fa fa-search"></i> Rechercher</button>
+                        <button type="reset" class="btn btn-sm btn-danger">
+                            <i class="fa fa-download"></i> Download</button>
+                    </div>
+                    </form>
+
+
+                </div>
+
+            </div>
+        </div>
+
+       {% if app.request.get('operateur') != null %}
+           <div class="row">
+               <div class="col-md-12">
+
+                       <div class="card-body">
+                           <table id="exemple" class="table table-responsive-sm table-hover  mb-0">
+                               <thead class="thead-light">
+                               <tr>
+
+                                   <th> Opérateur Mobile</th>
+                                   <th> No de carte</th>
+                                   <th> Nom sur la carte</th>
+                                   <th> No de telephone</th>
+                                   <th>Statut Carte</th>
+                                   <th>  Statut Linkage</th>
+                                   <th></th>
+                               </tr>
+                               </thead>
+                               <tbody>
+                               {% for souscription in souscriptions %}
+                                   <tr>
+                                       <td>{{ souscription.operateur }}</td>
+                                       <td>{{ souscription.numeroCarte | slice(0, 4)  }} **** **** *{{ souscription.numeroCarte | slice(0, 3)  }}</td>
+                                       <td>{{ souscription.nomCarte }}</td>
+
+                                       <td>{{ souscription.numeroTelephone }}</td>
+                                       <td>
+                                           {% if souscription.statutCarte == 'Activated' %}
+                                               <button type="button" class="btn btn-outline-success btn-sm">{{ souscription.StatutCarte }}</button>
+                                           {% elseif souscription.statutCarte == 'Pending' %}
+                                               <button type="button" class="btn btn-outline-warning btn-sm">{{ souscription.StatutCarte }}</button>
+
+                                           {% endif %}
+
+                                       </td>
+                                       <td>{{ souscription.StatutLiaison }}</td>
+
+
+                                   </tr>
+                               {% endfor %}
+                               </tbody>
+                           </table>
+
+
+
+                       </div>
+                   </div>
+               </div>
+           </div>
+       {% endif %}
+
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+<script language="Javascript" type="text/javascript">
+
+    function onlyAlphabets(e, t) {
+
+        try {
+
+            if (window.event) {
+
+                var charCode = window.event.keyCode;
+
+            }
+
+            else if (e) {
+
+                var charCode = e.which;
+
+            }
+
+            else { return true; }
+
+            if ((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123))
+
+                return true;
+
+            else
+
+                return false;
+
+        }
+
+        catch (err) {
+
+            alert(err.Description);
+
+        }
+
+    }
+
+    function onlyNos(e, t) {
+
+        try {
+
+            if (window.event) {
+
+                var charCode = window.event.keyCode;
+
+            }
+
+            else if (e) {
+
+                var charCode = e.which;
+
+            }
+
+            else { return true; }
+
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+
+                return false;
+
+            }
+
+            return true;
+
+        }
+
+        catch (err) {
+
+            alert(err.Description);
+
+        }
+
+    }
+    {% endblock %}

@@ -1,0 +1,86 @@
+{% extends "ILBankBundle::layout.html.twig" %}
+{% block title %}Liste des souscription {% endblock %}
+
+{% block breadcrumb %}
+    <div class="breadcrumbs">
+        <div class="col-sm-4">
+            <div class="page-header float-left">
+                <div class="page-title">
+                    <h1>Souscription Banque</h1>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-8">
+            <div class="page-header float-right">
+                <div class="page-title">
+                    <ol class="breadcrumb text-right">
+                        <li><a href="{{ path('il_bank_homepage') }}">Tableau de Bord</a></li>
+                        <li><a href="{{ path('il_bank_souscription_mobile_list') }}">Souscription Banque</a></li>
+                        <li class="active">Liste des resiliations</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <strong>Liste des resiliations</strong>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-responsive-sm table-hover  mb-0">
+                            <thead class="thead-light">
+                            <tr>
+                                <th class="text-center">
+                                    No
+                                </th>
+                                <th> No de compte</th>
+                                <th> No de carte</th>
+                                <th> Nom sur la carte</th>
+                                <th>Statut Carte</th>
+                                <th>  Statut Linkage</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for souscription in souscriptions %}
+                                <tr>
+                                    <td>{{ souscription.id }}</td>
+                                    <td>{{ souscription.numeroCompte }}</td>
+                                    <td>{{ souscription.numeroCarte }}</td>
+                                    <td>{{ souscription.nomCarte }}</td>
+                                    <td>
+                                        {% if souscription.statutCarte == 'Activated' %}
+                                            <button type="button" class="btn btn-outline-success btn-sm">{{ souscription.StatutCarte }}</button>
+                                        {% elseif souscription.statutCarte == 'Pending' %}
+                                            <button type="button" class="btn btn-outline-warning btn-sm">{{ souscription.StatutCarte }}</button>
+
+                                        {% endif %}
+
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-outline-danger btn-sm">{{ souscription.StatutLiaison }}</button>
+
+                                    </td>
+
+
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}

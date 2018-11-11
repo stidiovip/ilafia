@@ -1,0 +1,47 @@
+# app/config/security.yml
+# app/config/security.yml
+
+security:
+    encoders:
+        IL\UserBundle\Entity\User: sha512
+
+    providers:
+        main:
+            id: fos_user.user_provider.username_email
+    # http://symfony.com/doc/current/book/security.html#hierarchical-roles
+    role_hierarchy:
+        ROLE_CUSTOMER:       [ROLE_CUSTOMER]
+        ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+
+    # the main part of the security, where you can set up firewalls
+    # for specific sections of your app
+    firewalls:
+        # disables authentication for assets and the profiler, adapt it according to your needs
+        dev:
+            pattern:  ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            pattern:        ^/
+            anonymous:      true
+            provider:       main
+            form_login:
+                login_path: fos_user_security_login
+                check_path: /login_check
+                target_path_parameter: redirect_url
+                default_target_path: cmm_account_homepage
+                use_forward: false
+                use_referer: true
+                success_handler: redirect.after.login
+            logout:
+                path:       /logout
+                target:     /
+            remember_me:
+                secret:    %secret%
+                lifetime:   3650000
+                path:       /
+    access_control:
+        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/bank, role: ROLE_FRONT_OFFICE }
+        - { path: ^/back, role: ROLE_BACK_OFFICE }

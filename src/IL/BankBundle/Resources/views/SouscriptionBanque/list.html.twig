@@ -1,0 +1,102 @@
+{% extends "ILBankBundle::layout.html.twig" %}
+{% block title %}Liste des souscription {% endblock %}
+
+{% block breadcrumb %}
+    <div class="breadcrumbs">
+        <div class="col-sm-4">
+            <div class="page-header float-left">
+                <div class="page-title">
+                    <h1>Souscription Banque</h1>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-8">
+            <div class="page-header float-right">
+                <div class="page-title">
+                    <ol class="breadcrumb text-right">
+                        <li><a href="{{ path('il_bank_homepage') }}">Tableau de Bord</a></li>
+                        <li><a href="{{ path('il_bank_souscription_banque_list') }}">Souscription Banque</a></li>
+                        <li class="active">Liste des souscriptions</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <strong>Liste des souscriptions</strong>
+                    </div>
+                    <div class="card-body">
+                        <table id="datatable" class="table  table-responsive-sm ">
+                            <thead class="thead-light">
+                            <tr>
+
+                                <th> No de compte</th>
+                                <th>Type de compte</th>
+                                <th> No de carte</th>
+                                <th> Nom sur la carte</th>
+                                <th> No de téléphone</th>
+                                <th>Statut Carte</th>
+                                <th>  Statut Linkage</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for souscription in souscriptions %}
+                                <tr>
+                                    <td>{{ souscription.numeroCompte | slice(0, 4)}} **** **** *{{ souscription.numeroCompte | slice(0, 3)}}</td>
+                                    <td>{{ souscription.typeCompte }}</td>
+                                    <td>{{ souscription.numeroCarte | slice(0, 4)}} **** **** *{{ souscription.numeroCarte | slice(0, 3)}}</td>
+                                    <td>{{ souscription.nomCarte }}</td>
+                                    <td>{{ souscription.numeroTelephone }}</td>
+
+                                    <td>
+                                        {% if souscription.statutCarte == 'Activated' %}
+                                            <button type="button" class="btn btn-outline-success btn-sm">{{ souscription.StatutCarte }}</button>
+                                        {% elseif souscription.statutCarte == 'Pending' %}
+                                            <button type="button" class="btn btn-outline-warning btn-sm">{{ souscription.StatutCarte }}</button>
+
+                                        {% endif %}
+
+                                    </td>
+                                    <td>{{ souscription.StatutLiaison }}</td>
+
+                                    <td>
+                                        <a href="{{ path('il_bank_souscription_banque_edit', { 'id': souscription.id }) }}" class="btn  btn-outline-primary"><i class="fa fa-pencil"></i></a>
+                                        <a href="{{ path('il_bank_souscription_banque_resilier', { 'id': souscription.id }) }}" class="btn  btn-outline-danger">Resilier</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}
+
+
+{% block scripts %}
+    <script type="text/javascript">
+        jQuery(function ($) {
+            $('#datatable').DataTable({
+                'paging'      : false,
+                'lengthChange': true,
+                'searching'   : true,
+                'ordering'    : true,
+                'info'        : false,
+                'autoWidth'   : true
+            })
+        })
+    </script>
+{% endblock %}
