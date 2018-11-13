@@ -26,7 +26,7 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container">
+    <div class="">
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
@@ -34,17 +34,19 @@
                         <strong>Liste des souscriptions</strong>
                     </div>
                     <div class="card-body">
-                        <table id="datatable" class="table  table-responsive-sm ">
+                        <table id="#datatable" class="table  table-responsive-sm ">
                             <thead class="thead-light">
                             <tr>
 
                                 <th> No de compte</th>
-                                <th>Type de compte</th>
+                                <th> Type de compte</th>
                                 <th> No de carte</th>
                                 <th> Nom sur la carte</th>
                                 <th> No de téléphone</th>
-                                <th>Statut Carte</th>
-                                <th>  Statut Linkage</th>
+                                <th> Statut Carte</th>
+                                <th> Statut Linkage</th>
+                                <th> Effectuer par</th>
+                                <th> Agence</th>
                                 <th></th>
                             </tr>
                             </thead>
@@ -68,6 +70,9 @@
                                     </td>
                                     <td>{{ souscription.StatutLiaison }}</td>
 
+                                    <td>{{ souscription.effectuerPar.firstname }}</td>
+                                    <td>{{ souscription.effectuerPar.bank }}</td>
+                                    
                                     <td>
                                         <a href="{{ path('il_bank_souscription_banque_edit', { 'id': souscription.id }) }}" class="btn  btn-outline-primary"><i class="fa fa-pencil"></i></a>
                                         <a href="{{ path('il_bank_souscription_banque_resilier', { 'id': souscription.id }) }}" class="btn  btn-outline-danger">Resilier</a>

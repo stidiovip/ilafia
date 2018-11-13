@@ -161,7 +161,6 @@ class SouscriptionBanque
      */
     private $miniStatement;
 
-
     /**
      * Get id
      *
@@ -516,10 +515,4 @@ class SouscriptionBanque
         $this->numeroTelephone = $numeroTelephone;
     }
 
-
-
-
-
-
 }
-

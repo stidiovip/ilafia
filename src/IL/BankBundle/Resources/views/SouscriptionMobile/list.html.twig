@@ -14,7 +14,7 @@
             <div class="page-header float-right">
                 <div class="page-title">
                     <ol class="breadcrumb text-right">
-                        <li><a href="{{ path('il_bank_homepage') }}">Tableau de Bord</a></li>
+                        <li><a href="{{ path('il_bank_homepage') }}">Ilafia</a></li>
                         <li><a href="{{ path('il_bank_souscription_mobile_list') }}">Souscription Mobile</a></li>
                         <li class="active">Liste des souscriptions</li>
                     </ol>
@@ -26,7 +26,7 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container">
+    <div class="">
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
@@ -34,7 +34,7 @@
                         <strong>Liste des souscriptions</strong>
                     </div>
                     <div class="card-body">
-                        <table id="exemple" class="table table-responsive-sm table-hover  mb-0">
+                        <table id="#exemple" class="table table-responsive-sm table-hover  mb-0">
                             <thead class="thead-light">
                             <tr>
 
@@ -42,8 +42,12 @@
                                 <th> No de carte</th>
                                 <th> Nom sur la carte</th>
                                 <th> No de telephone</th>
-                                <th>Statut Carte</th>
-                                <th>  Statut Linkage</th>
+                                <th> Statut Carte</th>
+                                <th> Statut Linkage</th>
+
+                                <th> Effectuer Par </th>
+                                <th> Agence </th>
+
                                 <th></th>
                             </tr>
                             </thead>
@@ -66,6 +70,9 @@
                                     </td>
                                     <td>{{ souscription.StatutLiaison }}</td>
 
+                                    <td>{{ souscription.effectuerPar.firstname }}</td>
+                                    <td>{{ souscription.effectuerPar.bank }}</td>
+                                    
                                     <td>
                                         <a href="{{ path('il_bank_souscription_mobile_edit', { 'id': souscription.id }) }}" class="btn  btn-outline-primary"><i class="fa fa-pencil"></i></a>
                                         <a href="{{ path('il_bank_souscription_resilier', { 'id': souscription.id }) }}" class="btn  btn-outline-danger">Resilier</a>

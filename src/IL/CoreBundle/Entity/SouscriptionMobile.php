@@ -604,10 +604,5 @@ class SouscriptionMobile
         $this->effectuerPar = $effectuerPar;
     }
 
-
-
-
-
-
 }
 

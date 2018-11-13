@@ -41,3 +41,7 @@ il_bank_report:
 il_bank_transfert:
     path:     /transfert
     defaults: { _controller: ILBankBundle:Transfert:transfert }
+
+il_bank_user_profile:
+    path:     /user/profil
+    defaults: { _controller: ILBankBundle:User:profil }
