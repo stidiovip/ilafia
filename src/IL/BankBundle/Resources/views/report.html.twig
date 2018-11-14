@@ -128,8 +128,11 @@
                                    <th> No de carte</th>
                                    <th> Nom sur la carte</th>
                                    <th> No de telephone</th>
-                                   <th>Statut Carte</th>
-                                   <th>  Statut Linkage</th>
+                                   <th> Statut Carte</th>
+                                   <th> Statut Linkage</th>
+                                   <th> Date </th>
+                                   <th> Agent </th>
+                                   <th> Agence </th>
                                    <th></th>
                                </tr>
                                </thead>
@@ -151,6 +154,9 @@
 
                                        </td>
                                        <td>{{ souscription.StatutLiaison }}</td>
+                                       <td>{{ souscription.createdAt|date('d/m/Y') }}</td>
+                                       <td>{{ souscription.effectuerPar.firstname }}</td>
+                                       <td>{{ souscription.effectuerPar.bank }}</td>
                                    </tr>
                                {% endfor %}
                                </tbody>
