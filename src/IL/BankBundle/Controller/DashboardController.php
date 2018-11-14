@@ -22,15 +22,18 @@ class DashboardController extends Controller
         $banque = $em->getRepository('ILCoreBundle:SouscriptionBanque')->getBanqueChart();
         $mobile = $em->getRepository('ILCoreBundle:SouscriptionBanque')->getMobileChart();
         $resiliation = $em->getRepository('ILCoreBundle:SouscriptionBanque')->getResiliationChart();
-
+        $resBq = $em->getRepository('ILCoreBundle:SouscriptionBanque')->numberOfResiliation();
+        $resMb = $em->getRepository('ILCoreBundle:SouscriptionMobile')->numberOfResiliation();
+        
         return $this->render('ILBankBundle::index.html.twig', [
             'sousMobile' => $sousMobile,
             'sousBanque' => $sousBanque,
             'transfert' => $transfert[0],
             'banque' => $banque,
             'mobile' => $mobile,
-            'resiliation' => $resiliation
+            'resiliation' => $resiliation,
+            'resBq' => $resBq,
+            'resMb' => $resMb
         ]);
     }
-
 }

@@ -18,6 +18,13 @@ class SouscriptionMobileRepository extends \Doctrine\ORM\EntityRepository
         return $qb->getQuery()->getSingleScalarResult();
     }
 
+    public function numberOfResiliation()
+    {
+        $qb = $this->createQueryBuilder('u')
+            ->select('count(u.id)')->andWhere("u.statutLiaison = 'Resiliated'");
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+    
     public function getSouscriptionMobile($operateur, $statutLiaison, $dateDebut, $dateFin, $type_transaction, $noCarte, $noCompte)
     {
         

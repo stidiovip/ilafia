@@ -58,9 +58,13 @@ class SouscriptionBanqueRepository extends \Doctrine\ORM\EntityRepository
         //dump($result); exit;
 
         return $result;
+    }
 
-
-
+    public function numberOfResiliation()
+    {
+        $qb = $this->createQueryBuilder('u')
+            ->select('count(u.id)')->andWhere("u.statutLiaison = 'Resiliated'");
+        return $qb->getQuery()->getSingleScalarResult();
     }
 
     public function getResiliationChart()
