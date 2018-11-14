@@ -28,8 +28,6 @@ class SouscriptionMobileController extends Controller
         ]);
     }
 
-
-
     public function addAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -46,10 +44,9 @@ class SouscriptionMobileController extends Controller
             $em->flush();
 
             $request->getSession()->getFlashBag()->add('success', 'La liaison  a bien été éffectuée.');
-
+  
             return $this->redirect($this->generateUrl('il_bank_souscription_mobile_list'));
         }
-
 
         return $this->render('ILBankBundle:SouscriptionMobile:add.html.twig', [
             'form' => $form->createView()

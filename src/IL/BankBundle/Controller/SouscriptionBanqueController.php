@@ -20,10 +20,12 @@ class SouscriptionBanqueController extends Controller
     public function listAction()
     {
         $em = $this->getDoctrine()->getManager();
+        
         $list = $em->getRepository('ILCoreBundle:SouscriptionBanque')->findBy([
             'statutLiaison' => 'Linked',
             'statutLiaison' => 'Pending'
         ]);
+
         return $this->render('ILBankBundle:SouscriptionBanque:list.html.twig', [
             'souscriptions' => $list
         ]);
@@ -108,29 +110,42 @@ class SouscriptionBanqueController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $souscription = [];
+        
+        $type_raport = $request->get('type_raport');
 
-        if($request->getMethod() == 'GET'){
-            $operateur = $request->get('operateur');
-            $statutLiaison = $request->get('statutLiaison');
-            $NoCarte = $request->get('numeroCarte');
-            $dateDebut = $request->get('dateDebut');
-            $dateFin = $request->get('dateFin');
+        $operateur = $request->get('operateur');
+        $type_transaction = $request->get('type_transaction');
 
-            if($operateur != null ){
-                //dump('C2W'); exit;
-               $souscription = $em->getRepository('ILCoreBundle:SouscriptionMobile')->getSouscriptionMobile($operateur, $statutLiaison, $dateDebut, $dateFin);
-               dump($souscription); exit;
+        $noCarte = $request->get('numeroCarte');
+        $noCompte = $request->get('numeroCompte');
 
-                return $this->render('ILBankBundle::report.html.twig', [
-                    'souscriptions' => $souscription
-                ]);
-            }
-        }
+        $statutLiaison = $request->get('statutLiaison');
+        
+        $dateDebut = $request->get('date_debut');
+        $dateFin = $request->get('date_fin');
+        
+        $souscription = $em->getRepository('ILCoreBundle:SouscriptionMobile')->getSouscriptionMobile(
+            $operateur, 
+            $statutLiaison, 
+            $dateDebut, 
+            $dateFin,
+            $type_transaction,
+            $noCarte,
+            $noCompte
+        );
+       
 
         return $this->render('ILBankBundle::report.html.twig', [
-            'souscriptions' => $souscription
-        ]);
+            'souscriptions' => $souscription,
 
+            'operateur'     => $operateur,
+            'type_transaction' => $type_transaction,
+            'noCarte' => $noCarte,
+            'noCompte' => $noCompte,
+            'statutLiaison' => $statutLiaison,
+            'dateDebut' => $dateDebut,
+            'dateFin' => $dateFin,
+        ]);
     }
 
 }

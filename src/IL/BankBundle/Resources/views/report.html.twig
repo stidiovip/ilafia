@@ -12,71 +12,88 @@
                     <form method="get">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="nom_carte">Type de report</label>
+                                    <label for="type_report">TYPE DE RAPPORT </label>
                                     <select name="type_report" class="form-control">
-                                        <option value="">Settlement / EOD Exception report</option>
+                                        <option value="linkage">Linkages</option>
+                                        <option value="transferts">Rapports Transferts</option>
+                                        <optgroup label = "Rapport des Consultations">
+                                            <option value="mini_report">Mini Rapport</option>
+                                            <option value="sale">Solde</option>
+                                        </optgroup>
+                                        <option value="eod_exception">Settlement / EOD Exception</option>
                                     </select>
                                 </div>
                             </div>
+                        </div>
+                        <hr/>
 
-
-
-                            <div class="col-md-7">
-
+                        <div class ="row">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="nom_carte">Operateur</label>
                                     <select name="operateur" class="form-control">
                                         <option value=""></option>
-                                        <option value="Orange ML">Orange ML</option>
-                                        <option value="Malitel">Malitel</option>
+                                        <option value="Orange ML" {{ operateur|lower == 'orange ml' ? 'selected' : ''}}>Orange ML</option>
+                                        <option value="Malitel" {{ operateur|lower == 'malitel' ? 'selected' : ''}}>Malitel</option>
                                     </select>
                                 </div>
+                                <!--
                                 <div class="form-group">
                                     <label for="nom_carte">Type de transaction</label>
                                     <select name="type_transaction" class="form-control">
                                         <option value=""></option>
-                                        <option value="c2w">Carte => Mobile</option>
-                                        <option value="w2c">Mobile => Carte</option>
-                                        <option value="cb2c">Banque => Carte</option>
-                                        <option value="c2cb">Carte => Banque</option>
+                                        <option value="c2w" {{ type_transaction == 'c2w' ? 'selected' : ''}}>Carte => Mobile</option>
+                                        <option value="w2c" {{ type_transaction == 'w2c' ? 'selected' : ''}}>Mobile => Carte</option>
+                                        <option value="cb2c" {{ type_transaction == 'cb2c' ? 'selected' : ''}}>Banque => Carte</option>
+                                        <option value="c2cb" {{ type_transaction == 'c2cb' ? 'selected' : ''}}>Carte => Banque</option>
                                     </select>
                                 </div>
+                                
                                 <div class="form-group">
-                                    <label for="nom_carte">No de la carte</label>
-                                    <input type="text" onkeypress="return onlyNos(event,this);" maxlength="16" name="numeroCarte" class="form-control">
+                                    <label for="nom_carte">Numéro de Carte</label>
+                                    <input type="text" onkeypress="return onlyNos(event,this);" maxlength="16" name="numeroCarte" class="form-control" value = "{{ noCarte}}">
                                 </div>
-                                <div class="form-group">
-                                    <label for="nom_carte">Date de debut</label>
-                                    <input placeholder="JJ/MM/AAAA" type="text" name="dateDebut" class="form-control">
-                                </div>
-
+                                -->
                             </div>
-                            <div class="col-md-5">
-                                <div class="form-group">
-                                    <label for="nom_carte">No de compte</label>
-                                    <input type="text" name="numeroCompte" class="form-control">
-                                </div>
+
+                            <div class="col-md-3">
+                                
                                 <div class="form-group">
                                     <label for="nom_carte">Statut Linkage</label>
                                     <select  name="statutLiaison" class="form-control">
                                         <option value=""></option>
-                                        <option value="Pending">Pending</option>
-                                        <option value="Linked">Linked</option>
-                                        <option value="Resiliated">Resiliated</option>
+                                        <option value="Pending" {{ statutLiaison == 'Pending' ? 'selected' : ''}}>Pending</option>
+                                        <option value="Linked" {{ statutLiaison == 'Linked' ? 'selected' : ''}}>Linked</option>
+                                        <option value="Resiliated" {{ statutLiaison == 'Resiliated' ? 'selected' : ''}}>Resiliated</option>
                                     </select>
                                 </div>
+                                <!--
                                 <div class="form-group">
                                     <label for="nom_carte">Flexcube Reference</label>
-                                    <input  type="text" name="flexcube" class="form-control">
+                                    <input  type="text" name="flexcube" class="form-control" value = "">
                                 </div>
+                                -->
+                            </div>
+                            </div>
+                            <hr/>
+
+                            <div class = "row">
+                                <div class = "col-md-3">
+                                    <div class="form-group">
+                                        <label for="nom_carte">Date de début</label>
+                                        <input placeholder="JJ/MM/AAAA" type="text" name="date_debut" class="form-control" value = "{{dateDebut}}">
+                                    </div>
+                                </div>
+                                <div class = "col-md-3">
+
                                 <div class="form-group">
                                     <label for="nom_carte">Date de fin</label>
-                                    <input placeholder="JJ/MM/AAAA" type="text" name="date_fin" class="form-control">
+                                    <input placeholder="JJ/MM/AAAA" type="text" name="date_fin" class="form-control" value = "{{dateFin}}">
                                 </div>
-
-
+                                
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -86,7 +103,7 @@
                         <button type="submit" class="btn btn-sm btn-primary">
                             <i class="fa fa-search"></i> Rechercher</button>
                         <button type="reset" class="btn btn-sm btn-danger">
-                            <i class="fa fa-download"></i> Download</button>
+                            <i class="fa fa-download"></i> Export Excel</button>
                     </div>
                     </form>
 
@@ -96,11 +113,13 @@
             </div>
         </div>
 
-       {% if app.request.get('operateur') != null %}
+       <hr/>
            <div class="row">
                <div class="col-md-12">
-
+                        
                        <div class="card-body">
+                            <h3>{{ souscriptions|length}} Souscriptions trouvée(s)</h3>
+                            <br/>
                            <table id="exemple" class="table table-responsive-sm table-hover  mb-0">
                                <thead class="thead-light">
                                <tr>
@@ -132,8 +151,6 @@
 
                                        </td>
                                        <td>{{ souscription.StatutLiaison }}</td>
-
-
                                    </tr>
                                {% endfor %}
                                </tbody>
@@ -145,8 +162,6 @@
                    </div>
                </div>
            </div>
-       {% endif %}
-
     </div>
 
 {% endblock %}
@@ -159,9 +174,7 @@
         try {
 
             if (window.event) {
-
                 var charCode = window.event.keyCode;
-
             }
 
             else if (e) {
@@ -195,23 +208,17 @@
         try {
 
             if (window.event) {
-
                 var charCode = window.event.keyCode;
-
             }
 
             else if (e) {
-
                 var charCode = e.which;
-
             }
 
             else { return true; }
 
             if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-
                 return false;
-
             }
 
             return true;
@@ -219,10 +226,7 @@
         }
 
         catch (err) {
-
             alert(err.Description);
-
         }
-
     }
     {% endblock %}

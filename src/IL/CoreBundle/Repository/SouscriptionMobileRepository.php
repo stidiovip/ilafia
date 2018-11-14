@@ -18,30 +18,40 @@ class SouscriptionMobileRepository extends \Doctrine\ORM\EntityRepository
         return $qb->getQuery()->getSingleScalarResult();
     }
 
-    public function getSouscriptionMobile($operateur, $statutLiaison, $dateDebut, $dateFin)
+    public function getSouscriptionMobile($operateur, $statutLiaison, $dateDebut, $dateFin, $type_transaction, $noCarte, $noCompte)
     {
-        $dd1 = \DateTime::createFromFormat('d/m/Y', $dateDebut." 00:00:00");
-        $dd2 = \DateTime::createFromFormat('d/m/Y', $dateFin." 23:59:59");
-
+        
+        $qb = null;
+        $filters = [];
 
         if($operateur){
-            $qb = $this->createQueryBuilder('s')
-                ->andWhere('s.operateur = :operateur')
-                ->andWhere('s.createdAt BETWEEN :dateDebut AND :dateFin')
-
-                ->orderBy('s.createdAt', 'ASC')
-                ->setParameters([
-                    'operateur' => $operateur,
-                    'dateDebut' => $dd1,
-                    'dateFin' => $dd2
-                ])
-                ->getQuery();
-
-            $result = $qb->execute();
+            $qb = $this->createQueryBuilder('s');
             
-           // dump($dd1); exit;
+            if ( $operateur != null ){
+                $qb = $qb->andWhere('s.operateur = :operateur');
+                $filters['operateur'] = $operateur;
+            }
 
-            return $result;
+            if ( $statutLiaison != null ){
+                $qb = $qb->andWhere('s.statutLiaison = :statutLiaison');
+                $filters['statutLiaison'] = $statutLiaison;
+            }
+
+            if ( $dateDebut != null && $dateFin != null ){
+
+                $dd = \DateTime::createFromFormat('d/m/Y H:i', $dateDebut . '00:00');
+                $df = \DateTime::createFromFormat('d/m/Y H:i', $dateFin . '23:59');
+                
+                $qb = $qb->andWhere('s.createdAt BETWEEN :dateDebut AND :dateFin');
+                $filters['dateDebut'] = $dd;
+                $filters['dateFin'] = $df;
+
+            }
+
+            $qb = $qb->orderBy('s.createdAt', 'ASC')->setParameters($filters)->getQuery();
+
+            return $qb->getResult();
+
         }
 
     }
