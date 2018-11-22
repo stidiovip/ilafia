@@ -280,6 +280,18 @@
 
             console.log(numeroTelephone.substring(0, 1) );
 
+            var first = numeroTelephone.substring(0, 1);
+
+            if ( 
+                first != '5' || first != '6' || first != '7' || first != '8'
+            ){
+                console.log('Yo');
+                $("#il_corebundle_souscriptionmobile_numeroTelephone").css("border-color", "red");
+                $('#il_corebundle_souscriptionmobile_numeroTelephone').val('');
+            }else{
+                $("#il_corebundle_souscriptionmobile_numeroTelephone").css("border-color", "#ced4da");
+            }
+
             if(numeroTelephone.substring(0, 1) == '7' || numeroTelephone.substring(0, 1) == '8')
                 $('#il_corebundle_souscriptionmobile_operateur').val('ORANGE ML');
             
